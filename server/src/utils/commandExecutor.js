@@ -1,107 +1,107 @@
 const { exec } = require("child_process");
 
 const executeCommand = (command) => {
-
     command = command.toLowerCase().trim();
 
     // =========================
-    // Normalize Voice Commands
+    // Normalize Voice Commands (Using Regex Word Boundaries)
     // =========================
 
     if (
-        command.includes("open youtube") ||
+        /\bopen youtube\b/.test(command) ||
         command === "youtube"
     ) command = "open youtube";
 
     else if (
-        command.includes("open chrome") ||
+        /\bopen chrome\b/.test(command) ||
         command === "chrome"
     ) command = "open chrome";
 
     else if (
-        command.includes("open github") ||
+        /\bopen github\b/.test(command) ||
         command === "github"
     ) command = "open github";
 
     else if (
-        command.includes("open chatgpt") ||
+        /\bopen chatgpt\b/.test(command) ||
         command === "chatgpt"
     ) command = "open chatgpt";
 
     else if (
-        command.includes("open whatsapp") ||
+        /\bopen whatsapp\b/.test(command) ||
         command === "whatsapp"
     ) command = "open whatsapp";
 
     else if (
-        command.includes("open linkedin") ||
+        /\bopen linkedin\b/.test(command) ||
         command === "linkedin"
     ) command = "open linkedin";
 
     else if (
-        command.includes("open fiverr") ||
+        /\bopen fiverr\b/.test(command) ||
         command === "fiverr"
     ) command = "open fiverr";
 
     else if (
-        command.includes("open calculator") ||
+        /\bopen calculator\b/.test(command) ||
         command === "calculator"
     ) command = "open calculator";
 
     else if (
-        command.includes("open vscode") ||
-        command.includes("open vs code") ||
+        /\bopen vscode\b/.test(command) ||
+        /\bopen vs code\b/.test(command) ||
         command === "vscode"
     ) command = "open vscode";
 
     else if (
-        command.includes("shutdown") ||
-        command.includes("shut down") ||
-        command.includes("turn off") ||
-        command.includes("close laptop") ||
-        command.includes("close computer")
+        /\bshutdown\b/.test(command) ||
+        /\bshut down\b/.test(command) ||
+        /\bturn off laptop\b/.test(command) ||
+        /\bturn off computer\b/.test(command)
     ) command = "shutdown";
 
     else if (
-        command.includes("restart") ||
-        command.includes("reboot")
+        /\brestart\b/.test(command) ||
+        /\breboot\b/.test(command)
     ) command = "restart";
 
     else if (
-        command.includes("lock")
+        /\block computer\b/.test(command) ||
+        /\block screen\b/.test(command) ||
+        command === "lock"
     ) command = "lock";
 
     else if (
-        command.includes("sleep") ||
-        command.includes("hibernate")
+        /\bsleep\b/.test(command) ||
+        /\bhibernate\b/.test(command)
     ) command = "sleep";
 
     else if (
-        command.includes("take screenshot") ||
-        command.includes("capture screen") ||
-        command.includes("screenshot")
+        /\btake screenshot\b/.test(command) ||
+        /\bcapture screen\b/.test(command) ||
+        command === "screenshot"
     ) command = "screenshot";
 
     else if (
-        command.includes("increase volume") ||
-        command.includes("volume up")
+        /\bincrease volume\b/.test(command) ||
+        /\bvolume up\b/.test(command)
     ) command = "volume up";
 
     else if (
-        command.includes("decrease volume") ||
-        command.includes("volume down")
+        /\bdecrease volume\b/.test(command) ||
+        /\bvolume down\b/.test(command)
     ) command = "volume down";
 
     else if (
-        command.includes("mute")
+        /\bmute\b/.test(command)
     ) command = "mute";
 
     else if (
-        command.includes("folder")
+        /\bopen folder\b/.test(command)
     ) command = "folder";
 
     else if (
-        command.includes("file")
+        /\bopen file\b/.test(command)
     ) command = "file";
 
     // =========================
@@ -109,7 +109,6 @@ const executeCommand = (command) => {
     // =========================
 
     switch (command) {
-
         case "open chrome":
             exec("start chrome");
             return "Opening Chrome";
@@ -179,27 +178,20 @@ const executeCommand = (command) => {
             return "Muted.";
 
         case "folder": {
-
             const folderPath = process.env.DEFAULT_FOLDER;
-
             exec(`explorer "${folderPath}"`);
-
             return "Folder Opened.";
         }
 
         case "file": {
-
             const filePath = process.env.DEFAULT_FILE;
-
             exec(`start "" "${filePath}"`);
-
             return "File Opened.";
         }
 
         default:
             return "Command not found.";
     }
-
 };
 
 module.exports = executeCommand;
